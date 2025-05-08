@@ -1,6 +1,8 @@
 package com.yasir.code.features.users
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.ViewModel
 import com.yasir.code.core.domain.model.DogBreed
 import com.yasir.code.core.domain.model.Result
@@ -24,12 +26,19 @@ class DogBreedsScreenUiStateMapper @Inject constructor() {
     @VisibleForTesting
     fun mapSuccess(result: Result.Success<List<DogBreed>>): DogBreedsScreenUiState.DogBreedsUiState {
         val breeds: List<DogBreedUiState> = result.data.flatMap { breed: DogBreed ->
-            listOf(DogBreedUiState(breed.name)) + breed.subTypes.map { DogBreedUiState(it) }
+            mapDogBreedUiStates(breed)
         }
         return DogBreedsScreenUiState.DogBreedsUiState(
             breeds
         )
     }
+
+    private fun mapDogBreedUiStates(breed: DogBreed): List<DogBreedUiState> =
+        when {
+            // TODO: Names are english only
+            breed.subTypes.isNotEmpty() -> breed.subTypes.map { DogBreedUiState("${it.capitalize(Locale.current)} ${breed.name}") }
+            else -> listOf(DogBreedUiState(breed.name.capitalize(Locale.current)))
+        }
 
     @VisibleForTesting
     fun mapError(result: Result.Failure<List<DogBreed>>): DogBreedsScreenUiState.Error {

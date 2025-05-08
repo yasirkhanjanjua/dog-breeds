@@ -1,7 +1,9 @@
 package com.yasir.code.features.users
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
@@ -10,10 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yasir.code.features.users.model.DogBreedsScreenUiState
-import com.yasir.code.features.users.model.UserUiState
 
 @Composable
 fun ListScreen(
@@ -27,15 +29,15 @@ fun ListScreen(
 @Composable
 fun ListScreen(uiState: DogBreedsScreenUiState, modifier: Modifier = Modifier.Companion) {
     when(uiState) {
-        is DogBreedsScreenUiState.DogBreedsUiState -> ShowUsers(uiState)
+        is DogBreedsScreenUiState.DogBreedsUiState -> ShowDogBreeds(uiState)
         is DogBreedsScreenUiState.Loading -> ShowLoading()
         is DogBreedsScreenUiState.Error -> ShowError()
     }
 }
 
 @Composable
-fun ShowUsers(breedsUiState: DogBreedsScreenUiState.DogBreedsUiState, modifier: Modifier = Modifier) {
-    LazyColumn {
+fun ShowDogBreeds(breedsUiState: DogBreedsScreenUiState.DogBreedsUiState, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = Modifier.padding(all = 16.dp), contentPadding = PaddingValues(8.dp)) {
         items(breedsUiState.breeds) {
             Text(text = it.name)
         }

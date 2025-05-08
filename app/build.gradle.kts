@@ -50,7 +50,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:users"))
+    implementation(project(":feature:breeds"))
     implementation(project(":core:common"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))

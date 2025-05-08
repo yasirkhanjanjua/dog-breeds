@@ -32,7 +32,6 @@ class DogBreedsScreenViewModel @Inject constructor(
                     _usersState.value = DogBreedsScreenUiState.Error(e.message ?: "")
                 }
                 .collect {
-                    delay(3000)
                     _usersState.value = it
                 }
         }
