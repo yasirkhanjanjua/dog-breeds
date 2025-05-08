@@ -13,6 +13,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 import com.yasir.code.network.BuildConfig
+import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.logging.HttpLoggingInterceptor.Level
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -27,9 +29,22 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(authorizationInterceptor: AuthorizationInterceptor): OkHttpClient {
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().setLevel(Level.BODY)
+    }
+
+    // TODO: Remove authorizationInterceptor
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+        authorizationInterceptor: AuthorizationInterceptor,
+        httpLoggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient {
+
         return OkHttpClient.Builder()
             .addInterceptor(authorizationInterceptor)  // Add the interceptor
+            .addInterceptor(httpLoggingInterceptor)
+
             .build()
     }
 

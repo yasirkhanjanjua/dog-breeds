@@ -2,7 +2,8 @@ package com.yasir.code.features.users
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yasir.code.core.domain.FetchUsersUseCase
+import com.yasir.code.core.domain.GetDogBreedsUseCase
+import com.yasir.code.features.users.model.DogBreedsScreenUiState
 import com.yasir.code.features.users.model.UsersScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -14,20 +15,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListScreenViewModel @Inject constructor(
-    private val fetchUsersUseCase: FetchUsersUseCase,
+class DogBreedsScreenViewModel @Inject constructor(
+    private val getDogBreedsUseCase: GetDogBreedsUseCase,
     private val dogBreedsScreenUiStateMapper: DogBreedsScreenUiStateMapper
 ) : ViewModel() {
 
-    private val _usersState: MutableStateFlow<UsersScreenUiState> = MutableStateFlow<UsersScreenUiState>(UsersScreenUiState.Loading)
-    val usersState: StateFlow<UsersScreenUiState> = _usersState
+    private val _usersState: MutableStateFlow<DogBreedsScreenUiState> = MutableStateFlow<DogBreedsScreenUiState>(DogBreedsScreenUiState.Loading)
+    val usersState: StateFlow<DogBreedsScreenUiState> = _usersState
 
     init {
         viewModelScope.launch {
-            fetchUsersUseCase()
+            getDogBreedsUseCase()
                 .map(dogBreedsScreenUiStateMapper::map)
                 .catch { e: Throwable ->
-                    _usersState.value = UsersScreenUiState.Error(e.message ?: "")
+                    // TODO: Fix
+                    _usersState.value = DogBreedsScreenUiState.Error(e.message ?: "")
                 }
                 .collect {
                     delay(3000)

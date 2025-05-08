@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         minSdk = 24
-        buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
+        buildConfigField("String", "BASE_URL", "\"https://dog.ceo/api/\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -46,6 +46,7 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)
     implementation(libs.moshi)

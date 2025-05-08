@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Template"
+rootProject.name = "Dog Breeds"
 include(":app")
 include(":core:domain")
 include(":core:network")

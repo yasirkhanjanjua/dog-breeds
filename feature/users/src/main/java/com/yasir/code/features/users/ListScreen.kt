@@ -12,32 +12,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.yasir.code.domain.model.User
+import com.yasir.code.features.users.model.DogBreedsScreenUiState
 import com.yasir.code.features.users.model.UserUiState
-import com.yasir.code.features.users.model.UsersScreenUiState
 
 @Composable
 fun ListScreen(
     modifier: Modifier = Modifier.Companion,
-    viewModel: ListScreenViewModel = hiltViewModel<ListScreenViewModel>()
+    viewModel: DogBreedsScreenViewModel = hiltViewModel<DogBreedsScreenViewModel>()
 ) {
-    val state: State<UsersScreenUiState> = viewModel.usersState.collectAsStateWithLifecycle()
+    val state: State<DogBreedsScreenUiState> = viewModel.usersState.collectAsStateWithLifecycle()
     ListScreen(state.value)
 }
 
 @Composable
-fun ListScreen(uiState: UsersScreenUiState, modifier: Modifier = Modifier.Companion) {
+fun ListScreen(uiState: DogBreedsScreenUiState, modifier: Modifier = Modifier.Companion) {
     when(uiState) {
-        is UsersScreenUiState.UsersUiState -> ShowUsers(uiState.users)
-        is UsersScreenUiState.Loading -> ShowLoading()
-        is UsersScreenUiState.Error -> ShowError()
+        is DogBreedsScreenUiState.DogBreedsUiState -> ShowUsers(uiState)
+        is DogBreedsScreenUiState.Loading -> ShowLoading()
+        is DogBreedsScreenUiState.Error -> ShowError()
     }
 }
 
 @Composable
-fun ShowUsers(users: List<UserUiState>, modifier: Modifier = Modifier) {
+fun ShowUsers(breedsUiState: DogBreedsScreenUiState.DogBreedsUiState, modifier: Modifier = Modifier) {
     LazyColumn {
-        items(users) {
+        items(breedsUiState.breeds) {
             Text(text = it.name)
         }
     }
