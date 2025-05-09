@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel(assistedFactory = DogBreedImagesScreenViewModelFactory::class)
 class DogBreedImagesScreenViewModel @AssistedInject constructor(
@@ -25,17 +24,19 @@ class DogBreedImagesScreenViewModel @AssistedInject constructor(
 
     private val _usersState: MutableStateFlow<DogBreedDetailScreenUiState> =
         MutableStateFlow<DogBreedDetailScreenUiState>(
-            DogBreedDetailScreenUiState.Loading
+            DogBreedDetailScreenUiState.Loading(dogBreedDetailScreenUiStateMapper.mapTitle(breed))
         )
     val usersState: StateFlow<DogBreedDetailScreenUiState> = _usersState
 
     init {
         viewModelScope.launch {
             getDogBreedImagesUseCase(breed)
-                .map(dogBreedDetailScreenUiStateMapper::map)
+                .map {
+                    dogBreedDetailScreenUiStateMapper.map(breed, it)
+                }
                 .catch { e: Throwable ->
                     // TODO: Fix
-                    _usersState.value = DogBreedDetailScreenUiState.Error(e.message ?: "")
+                    _usersState.value = DogBreedDetailScreenUiState.Error(dogBreedDetailScreenUiStateMapper.mapTitle(breed), e.message ?: "")
                 }
                 .collect {
                     _usersState.value = it

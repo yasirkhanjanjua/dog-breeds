@@ -1,12 +1,14 @@
 package com.yasir.code.features.breeddetail.model
 
-sealed class DogBreedDetailScreenUiState {
+sealed class DogBreedDetailScreenUiState(
+    open val title: String
+) {
+     class DogBreedDetailUiState(
+         override val title: String,
+         val images: List<String>,
+    ) : DogBreedDetailScreenUiState(title)
 
-    data class DogBreedDetailUiState(
-        val images: List<String>
-    ) : DogBreedDetailScreenUiState()
+    data class Loading(override val title: String) : DogBreedDetailScreenUiState(title)
 
-    data object Loading : DogBreedDetailScreenUiState()
-
-    data class Error(val message: String) : DogBreedDetailScreenUiState()
+    data class Error(override val title: String, val message: String) : DogBreedDetailScreenUiState(title)
 }

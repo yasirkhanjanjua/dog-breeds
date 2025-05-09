@@ -13,7 +13,7 @@ import com.yasir.code.core.domain.model.DogBreed
 import com.yasir.code.features.breeddetail.DogBreedDetailScreen
 import com.yasir.code.features.breeddetail.DogBreedImagesScreenViewModel
 import com.yasir.code.features.breeddetail.DogBreedImagesScreenViewModelFactory
-import com.yasir.code.features.users.ListScreen
+import com.yasir.code.features.users.DogBreedsScreen
 import kotlinx.serialization.Serializable
 
 
@@ -32,8 +32,13 @@ fun NavHostContainer(modifier: Modifier = Modifier) {
     val navHostController: NavHostController = rememberNavController()
     NavHost(navHostController, DogBreedsScreen) {
         composable<DogBreedsScreen> {
-            ListScreen(modifier = Modifier.padding()) { breed ->
-                navHostController.navigate(DogBreedDetailsScreen(name = breed.name, subTypes = breed.subTypes))
+            DogBreedsScreen(modifier = Modifier.padding()) { breed ->
+                navHostController.navigate(
+                    DogBreedDetailsScreen(
+                        name = breed.name,
+                        subTypes = breed.subTypes
+                    )
+                )
             }
         }
         composable<DogBreedDetailsScreen> { entry ->
@@ -44,7 +49,7 @@ fun NavHostContainer(modifier: Modifier = Modifier) {
                 ) { factory: DogBreedImagesScreenViewModelFactory ->
                     factory.create(DogBreed(screen.name, screen.subTypes))
                 }
-            DogBreedDetailScreen(viewModel)
+            DogBreedDetailScreen(viewModel, onBackPressed = { navHostController.popBackStack() })
         }
     }
 }
