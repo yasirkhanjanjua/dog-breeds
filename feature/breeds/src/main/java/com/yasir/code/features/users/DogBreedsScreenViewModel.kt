@@ -28,8 +28,7 @@ class DogBreedsScreenViewModel @Inject constructor(
             getDogBreedsUseCase.invoke(viewModelScope)
                 .map(dogBreedsScreenUiStateMapper::map)
                 .catch { e: Throwable ->
-                    // TODO: Fix
-                    _usersState.value = DogBreedsScreenUiState.Error(e.message ?: "")
+                    _usersState.value = dogBreedsScreenUiStateMapper.mapError(e)
                 }
                 .collect {
                     _usersState.value = it

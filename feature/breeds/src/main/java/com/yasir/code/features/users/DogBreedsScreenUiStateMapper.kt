@@ -1,25 +1,31 @@
 package com.yasir.code.features.users
 
 import androidx.annotation.VisibleForTesting
+import com.yasir.code.common.R
+import com.yasir.code.common.StringLoader
 import com.yasir.code.common.capitalize
-import com.yasir.code.core.domain.model.DogBreed
 import com.yasir.code.core.domain.model.DogBreedWithImage
 import com.yasir.code.core.domain.model.Result
-import com.yasir.code.core.domain.model.User
 import com.yasir.code.features.users.model.DogBreedUiState
 import com.yasir.code.features.users.model.DogBreedsScreenUiState
-import com.yasir.code.features.users.model.UserUiState
-import com.yasir.code.features.users.model.UsersScreenUiState
+import java.io.IOException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
-class DogBreedsScreenUiStateMapper @Inject constructor() {
-
-
+class DogBreedsScreenUiStateMapper @Inject constructor(
+    private val stringLoader: StringLoader
+) {
     fun map(result: Result<List<DogBreedWithImage>>): DogBreedsScreenUiState {
         return when (result) {
             is Result.Success -> mapSuccess(result)
             is Result.Failure -> mapError(result)
         }
+    }
+
+    fun mapError(error: Throwable) = when(error) {
+        is UnknownHostException -> DogBreedsScreenUiState.Error(stringLoader.getString(R.string.no_internet))
+        is IOException -> DogBreedsScreenUiState.Error(stringLoader.getString(R.string.network_error))
+        else -> DogBreedsScreenUiState.Error(stringLoader.getString(R.string.unknown_error))
     }
 
     @VisibleForTesting
@@ -32,18 +38,12 @@ class DogBreedsScreenUiStateMapper @Inject constructor() {
         )
     }
 
-    private fun mapDogBreedUiStates(breed: DogBreedWithImage): List<DogBreedUiState> =
+    @VisibleForTesting fun mapDogBreedUiStates(breed: DogBreedWithImage): List<DogBreedUiState> =
         when {
             breed.breed.subType.isNotEmpty() ->   listOf(DogBreedUiState(breed = breed.breed, name = "${breed.breed.subType.capitalize()} ${breed.breed.name.capitalize()}", image = breed.image))
             else -> listOf(DogBreedUiState(breed = breed.breed, name = breed.breed.name.capitalize(), image = breed.image))
         }
 
-    @VisibleForTesting
-    fun mapError_(result: Result.Failure<List<DogBreed>>): DogBreedsScreenUiState.Error {
-        return DogBreedsScreenUiState.Error(
-            result.message
-        )
-    }
 
     @VisibleForTesting
     fun mapError(result: Result.Failure<List<DogBreedWithImage>>): DogBreedsScreenUiState.Error {
@@ -51,23 +51,4 @@ class DogBreedsScreenUiStateMapper @Inject constructor() {
             result.message
         )
     }
-
-    fun map(result: Result<List<User>>): UsersScreenUiState =
-        when (result) {
-            is Result.Success -> mapSuccess(result)
-            is Result.Failure -> mapError(result)
-        }
-
-    @VisibleForTesting
-    fun mapSuccess(result: Result.Success<List<User>>): UsersScreenUiState =
-        UsersScreenUiState.UsersUiState(
-            result.data.map {
-                UserUiState(
-                    name = it.name
-                )
-            })
-
-    @VisibleForTesting
-    fun mapError(result: Result.Failure<List<User>>): UsersScreenUiState =
-        UsersScreenUiState.Error(result.message)
 }
