@@ -2,8 +2,6 @@ package com.yasir.code.features.users
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.intl.Locale
-import androidx.lifecycle.ViewModel
 import com.yasir.code.core.domain.model.DogBreed
 import com.yasir.code.core.domain.model.DogBreedWithImage
 import com.yasir.code.core.domain.model.Result
@@ -12,7 +10,8 @@ import com.yasir.code.features.users.model.DogBreedUiState
 import com.yasir.code.features.users.model.DogBreedsScreenUiState
 import com.yasir.code.features.users.model.UserUiState
 import com.yasir.code.features.users.model.UsersScreenUiState
-import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.Locale
+import com.yasir.code.common.capitalize
 import javax.inject.Inject
 
 class DogBreedsScreenUiStateMapper @Inject constructor() {
@@ -24,13 +23,6 @@ class DogBreedsScreenUiStateMapper @Inject constructor() {
             is Result.Failure -> mapError(result)
         }
     }
-
-//    fun map_(result: Result<List<DogBreed>>): DogBreedsScreenUiState {
-//        return when (result) {
-//            is Result.Success -> mapSuccess(result)
-//            is Result.Failure -> mapError(result)
-//        }
-//    }
 
     @VisibleForTesting
     fun mapSuccess(result: Result.Success<List<DogBreedWithImage>>): DogBreedsScreenUiState.DogBreedsUiState {
@@ -44,17 +36,9 @@ class DogBreedsScreenUiStateMapper @Inject constructor() {
 
     private fun mapDogBreedUiStates(breed: DogBreedWithImage): List<DogBreedUiState> =
         when {
-            // TODO: Names are english only
-            breed.breed.subTypes.isNotEmpty() -> breed.breed.subTypes.map { DogBreedUiState(breed.breed, "${it.capitalize(Locale.current)} ${breed.breed.name}", breed.image) }
-            else -> listOf(DogBreedUiState(breed.breed, breed.breed.name.capitalize(Locale.current), breed.image))
+            breed.breed.subType.isNotEmpty() ->   listOf(DogBreedUiState(breed = breed.breed, name = "${breed.breed.subType.capitalize()} ${breed.breed.name.capitalize()}", image = breed.image))
+            else -> listOf(DogBreedUiState(breed = breed.breed, name = breed.breed.name.capitalize(), image = breed.image))
         }
-
-//    private fun mapDogBreedUiStates_(breed: DogBreed): List<DogBreedUiState> =
-//        when {
-//            // TODO: Names are english only
-//            breed.subTypes.isNotEmpty() -> breed.subTypes.map { DogBreedUiState(breed, "${it.capitalize(Locale.current)} ${breed.name}") }
-//            else -> listOf(DogBreedUiState(breed, breed.name.capitalize(Locale.current)))
-//        }
 
     @VisibleForTesting
     fun mapError_(result: Result.Failure<List<DogBreed>>): DogBreedsScreenUiState.Error {

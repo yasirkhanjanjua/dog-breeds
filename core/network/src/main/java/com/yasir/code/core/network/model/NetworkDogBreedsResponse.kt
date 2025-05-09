@@ -8,11 +8,11 @@ data class NetworkDogBreedsResponse(
 )
 
 fun NetworkDogBreedsResponse.toDogBreeds(): List<DogBreed> {
-    return message.map { (key, value) ->
-        DogBreed(
-            name = key,
-            subTypes = value
-        )
+    return message.flatMap { (breed, subTypes) ->
+        when {
+            subTypes.isNotEmpty() -> subTypes.map { DogBreed(breed, it) }
+            else -> listOf(DogBreed(breed, ""))
+        }
     }
 }
 

@@ -23,9 +23,8 @@ data object DogBreedsScreen
 @Serializable
 data class DogBreedDetailsScreen(
     val name: String,
-    val subTypes: List<String>
+    val subType: String
 )
-//data class DogBreedDetailsScreen(val breed: DogBreed)
 
 @Composable
 fun NavHostContainer(modifier: Modifier = Modifier) {
@@ -36,7 +35,7 @@ fun NavHostContainer(modifier: Modifier = Modifier) {
                 navHostController.navigate(
                     DogBreedDetailsScreen(
                         name = breed.name,
-                        subTypes = breed.subTypes
+                        subType = breed.subType
                     )
                 )
             }
@@ -47,7 +46,7 @@ fun NavHostContainer(modifier: Modifier = Modifier) {
                 hiltViewModel<DogBreedImagesScreenViewModel, DogBreedImagesScreenViewModelFactory>(
                     key = screen.name
                 ) { factory: DogBreedImagesScreenViewModelFactory ->
-                    factory.create(DogBreed(screen.name, screen.subTypes))
+                    factory.create(DogBreed(screen.name, screen.subType))
                 }
             DogBreedDetailScreen(viewModel, onBackPressed = { navHostController.popBackStack() })
         }
