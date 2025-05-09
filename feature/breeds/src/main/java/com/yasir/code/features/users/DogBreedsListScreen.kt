@@ -1,11 +1,17 @@
 package com.yasir.code.features.users
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -18,11 +24,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.yasir.code.core.domain.model.DogBreed
 import com.yasir.code.features.users.model.DogBreedsScreenUiState
 import com.yasir.code.users.R
@@ -50,7 +59,7 @@ fun DogBreedsScreen(
     paddingValues: PaddingValues,
     uiState: DogBreedsScreenUiState,
     onBreedSelected: (breed: DogBreed) -> Unit,
-    modifier: Modifier = Modifier.Companion
+    modifier: Modifier = Modifier
 ) {
     when (uiState) {
         is DogBreedsScreenUiState.DogBreedsUiState -> ShowDogBreeds(uiState, onBreedSelected)
@@ -67,8 +76,28 @@ fun ShowDogBreeds(
 ) {
     LazyColumn(modifier = Modifier.padding(all = 16.dp), contentPadding = PaddingValues(8.dp)) {
         items(breedsUiState.breeds) {
-            Surface(onClick = { onBreedSelected(it.breed) }) {
-                Text(text = it.name)
+            Surface(onClick = { onBreedSelected(it.breed) },
+                modifier = modifier.fillParentMaxWidth().padding(top = 16.dp)) {
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    AsyncImage(
+                        model = it.image,
+                        modifier = Modifier
+                            .size(60.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop,
+                        contentDescription = null,
+                    )
+
+                    Spacer(modifier = Modifier.size(16.dp))
+
+                    Text(text = it.name, modifier = Modifier.padding(8.dp),
+                        style = MaterialTheme.typography.titleLarge)
+
+                }
             }
         }
     }
@@ -93,7 +122,7 @@ fun ShowError(modifier: Modifier = Modifier) {
 @OptIn(ExperimentalMaterial3Api::class)
 private fun BreedsTopAppBar() {
     TopAppBar(
-        title = { Text(text = stringResource(R.string.breeds_title)) },
+        title = { Text(text = stringResource(R.string.breeds_title), style = MaterialTheme.typography.titleMedium) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.onSurface,
             titleContentColor = Color.White,

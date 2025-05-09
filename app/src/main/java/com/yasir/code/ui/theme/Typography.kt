@@ -20,6 +20,13 @@ val typography = Typography(
         letterSpacing = 0.sp
     ),
 
+    bodyLarge = TextStyle(
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.25.sp
+    ),
+
     bodyMedium = TextStyle(
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp,

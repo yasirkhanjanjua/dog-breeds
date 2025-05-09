@@ -24,8 +24,21 @@ class DogBreedsScreenViewModel @Inject constructor(
     val usersState: StateFlow<DogBreedsScreenUiState> = _usersState
 
     init {
+//        viewModelScope.launch {
+//            getDogBreedsUseCase()
+//                .map(dogBreedsScreenUiStateMapper::map)
+//                .catch { e: Throwable ->
+//                    // TODO: Fix
+//                    _usersState.value = DogBreedsScreenUiState.Error(e.message ?: "")
+//                }
+//                .collect {
+//                    _usersState.value = it
+//                }
+//        }
+
+
         viewModelScope.launch {
-            getDogBreedsUseCase()
+            getDogBreedsUseCase.fetchBreedsWithImagesFlow(viewModelScope)
                 .map(dogBreedsScreenUiStateMapper::map)
                 .catch { e: Throwable ->
                     // TODO: Fix
@@ -35,6 +48,7 @@ class DogBreedsScreenViewModel @Inject constructor(
                     _usersState.value = it
                 }
         }
+
     }
 
 }

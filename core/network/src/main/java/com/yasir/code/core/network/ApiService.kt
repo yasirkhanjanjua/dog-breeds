@@ -1,5 +1,6 @@
 package com.yasir.code.core.network
 
+import com.yasir.code.core.network.model.NetworkBreedImage
 import com.yasir.code.core.network.model.NetworkBreedImages
 import com.yasir.code.core.network.model.NetworkDogBreedsResponse
 import com.yasir.code.core.network.model.NetworkUser
@@ -14,4 +15,7 @@ interface ApiService {
 
     @GET("breed/{breed}/images")
     suspend fun fetchBreedImages(@Path("breed") breed: String): Response<NetworkBreedImages>
+
+    @GET("breed/{breed}/images/random")
+    suspend fun fetchBreedImage(@Path("breed") breed: String): Response<NetworkBreedImage>
 }

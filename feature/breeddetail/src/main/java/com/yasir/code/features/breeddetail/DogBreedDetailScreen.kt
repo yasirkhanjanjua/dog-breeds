@@ -88,7 +88,7 @@ private fun BreedDetailTopAppBar(name: String, onBackPressed: () -> Unit) {
         isBackHandled.value = true
     }
     TopAppBar(
-        title = { Text(text = name) },
+        title = { Text(text = name, style = MaterialTheme.typography.titleMedium) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.onSurface,
             titleContentColor = Color.White,
