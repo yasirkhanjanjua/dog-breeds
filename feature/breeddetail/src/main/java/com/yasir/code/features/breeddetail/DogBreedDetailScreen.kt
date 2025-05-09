@@ -15,7 +15,16 @@ import com.yasir.code.features.breeddetail.model.DogBreedDetailScreenUiState
 fun DogBreedDetailScreen(viewModel: DogBreedImagesScreenViewModel, modifier: Modifier = Modifier) {
     val uiState: State<DogBreedDetailScreenUiState> =
         viewModel.usersState.collectAsStateWithLifecycle()
+    DogBreedDetails(uiState.value)
+}
 
+@Composable
+fun DogBreedDetails(uiState: DogBreedDetailScreenUiState, modifier: Modifier = Modifier) {
+    when(uiState) {
+        is DogBreedDetailScreenUiState.DogBreedDetailUiState -> DogBreedDetails(uiState)
+        is DogBreedDetailScreenUiState.Loading -> { }
+        is DogBreedDetailScreenUiState.Error -> { }
+    }
 }
 
 @Composable

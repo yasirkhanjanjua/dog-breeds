@@ -21,7 +21,11 @@ import kotlinx.serialization.Serializable
 data object DogBreedsScreen
 
 @Serializable
-data class DogBreedDetailsScreen(val breed: DogBreed)
+data class DogBreedDetailsScreen(
+    val name: String,
+    val subTypes: List<String>
+)
+//data class DogBreedDetailsScreen(val breed: DogBreed)
 
 @Composable
 fun NavHostContainer(modifier: Modifier = Modifier) {
@@ -29,16 +33,16 @@ fun NavHostContainer(modifier: Modifier = Modifier) {
     NavHost(navHostController, DogBreedsScreen) {
         composable<DogBreedsScreen> {
             ListScreen(modifier = Modifier.padding()) { breed ->
-                navHostController.navigate(DogBreedDetailsScreen(breed))
+                navHostController.navigate(DogBreedDetailsScreen(name = breed.name, subTypes = breed.subTypes))
             }
         }
         composable<DogBreedDetailsScreen> { entry ->
             val screen: DogBreedDetailsScreen = entry.toRoute<DogBreedDetailsScreen>()
             val viewModel: DogBreedImagesScreenViewModel =
                 hiltViewModel<DogBreedImagesScreenViewModel, DogBreedImagesScreenViewModelFactory>(
-                    key = screen.breed.toString()
+                    key = screen.name
                 ) { factory: DogBreedImagesScreenViewModelFactory ->
-                    factory.create(screen.breed)
+                    factory.create(DogBreed(screen.name, screen.subTypes))
                 }
             DogBreedDetailScreen(viewModel)
         }
