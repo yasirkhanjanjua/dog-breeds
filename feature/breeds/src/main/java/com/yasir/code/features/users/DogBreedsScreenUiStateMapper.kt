@@ -1,7 +1,7 @@
 package com.yasir.code.features.users
 
 import androidx.annotation.VisibleForTesting
-import androidx.compose.ui.text.capitalize
+import com.yasir.code.common.capitalize
 import com.yasir.code.core.domain.model.DogBreed
 import com.yasir.code.core.domain.model.DogBreedWithImage
 import com.yasir.code.core.domain.model.Result
@@ -10,8 +10,6 @@ import com.yasir.code.features.users.model.DogBreedUiState
 import com.yasir.code.features.users.model.DogBreedsScreenUiState
 import com.yasir.code.features.users.model.UserUiState
 import com.yasir.code.features.users.model.UsersScreenUiState
-import java.util.Locale
-import com.yasir.code.common.capitalize
 import javax.inject.Inject
 
 class DogBreedsScreenUiStateMapper @Inject constructor() {
@@ -30,7 +28,7 @@ class DogBreedsScreenUiStateMapper @Inject constructor() {
             mapDogBreedUiStates(breed)
         }
         return DogBreedsScreenUiState.DogBreedsUiState(
-            breeds
+            breeds.sortedBy { it.name }
         )
     }
 

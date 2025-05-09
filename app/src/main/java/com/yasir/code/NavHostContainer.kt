@@ -1,8 +1,6 @@
 package com.yasir.code
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -27,11 +25,11 @@ data class DogBreedDetailsScreen(
 )
 
 @Composable
-fun NavHostContainer(modifier: Modifier = Modifier) {
+fun NavHostContainer() {
     val navHostController: NavHostController = rememberNavController()
     NavHost(navHostController, DogBreedsScreen) {
         composable<DogBreedsScreen> {
-            DogBreedsScreen(modifier = Modifier.padding()) { breed ->
+            DogBreedsScreen { breed ->
                 navHostController.navigate(
                     DogBreedDetailsScreen(
                         name = breed.name,

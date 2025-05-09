@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.yasir.code.breeddetail.R
@@ -61,7 +62,7 @@ fun DogBreedDetails(
     uiState: DogBreedDetailScreenUiState.DogBreedDetailUiState,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn {
+    LazyColumn(modifier = modifier) {
         items(uiState.images) {
             DogBreedImage(it)
         }
