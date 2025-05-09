@@ -16,6 +16,8 @@ import com.yasir.code.network.BuildConfig
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 
+
+// TODO: Remove interceptor
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {

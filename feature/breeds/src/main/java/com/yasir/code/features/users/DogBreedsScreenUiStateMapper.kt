@@ -36,8 +36,8 @@ class DogBreedsScreenUiStateMapper @Inject constructor() {
     private fun mapDogBreedUiStates(breed: DogBreed): List<DogBreedUiState> =
         when {
             // TODO: Names are english only
-            breed.subTypes.isNotEmpty() -> breed.subTypes.map { DogBreedUiState("${it.capitalize(Locale.current)} ${breed.name}") }
-            else -> listOf(DogBreedUiState(breed.name.capitalize(Locale.current)))
+            breed.subTypes.isNotEmpty() -> breed.subTypes.map { DogBreedUiState(breed, "${it.capitalize(Locale.current)} ${breed.name}") }
+            else -> listOf(DogBreedUiState(breed, breed.name.capitalize(Locale.current)))
         }
 
     @VisibleForTesting

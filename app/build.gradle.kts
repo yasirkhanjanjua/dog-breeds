@@ -51,6 +51,7 @@ android {
 
 dependencies {
     implementation(project(":feature:breeds"))
+    implementation(project(":feature:breeddetail"))
     implementation(project(":core:common"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
