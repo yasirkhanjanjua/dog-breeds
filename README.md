@@ -5,5 +5,5 @@ Displays list of dog breeds with breed image. Clicking on the breed list item op
 which shows 10 random images of that breed.
 
 ### Design
-![Breeds List](list.png)
-![Breed detail](detail.png)
+![Breeds List](screenshots/list.png)
+![Breed detail](screenshots/detail.png)
