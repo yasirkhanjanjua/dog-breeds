@@ -4,10 +4,12 @@ import com.flextrade.jfixture.JFixture
 import com.yasir.code.core.domain.model.DogBreed
 import com.yasir.code.core.domain.model.Result
 import com.yasir.code.core.network.NetworkBreedImagesSource
+import com.yasir.code.core.network.model.NetworkBreedImage
 import com.yasir.code.core.network.model.NetworkBreedImages
 import com.yasir.code.test.MainDispatcherRule
 import com.yasir.code.test.util.str
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -64,6 +66,31 @@ class NetworkDogBreedImagesRepositoryTest {
         assertThat(result, `is`(instanceOf(Result.Failure::class.java)))
         val failureResult = result as Result.Failure
         assertThat(failureResult.message, `is`(fixtErrorMsg))
+    }
+
+    @Test
+    fun `fetchDogBreedImage on success returns image url`() = runTest {
+        val fixtBreed = fixture.create(DogBreed::class.java)
+        val fixtBreedImageUrl = fixture.str()
+        val fixtNetworkImage = fixture.create(NetworkBreedImage::class.java).copy(message = fixtBreedImageUrl)
+        coEvery { mockNetworkBreedImagesSource.fetchBreedImage(fixtBreed.name) } returns Result.Success(fixtNetworkImage)
+
+        val breedUrlResult: Result<String> = sut.fetchDogBreedImage(fixtBreed)
+
+        assertThat(breedUrlResult, `is`(instanceOf(Result.Success::class.java)))
+        assertThat((breedUrlResult as Result.Success).data, `is`(fixtBreedImageUrl))
+    }
+
+    @Test
+    fun `fetchDogBreedImage on failure returns failure`() = runTest {
+        val fixtBreed = fixture.create(DogBreed::class.java)
+        val fixtErrorMessage = fixture.str()
+        coEvery { mockNetworkBreedImagesSource.fetchBreedImage(fixtBreed.name) } returns Result.Failure(message = fixtErrorMessage)
+
+        val breedUrlResult: Result<String> = sut.fetchDogBreedImage(fixtBreed)
+
+        assertThat(breedUrlResult, `is`(instanceOf(Result.Failure::class.java)))
+        assertThat((breedUrlResult as Result.Failure).message, `is`(fixtErrorMessage))
     }
 
 }
