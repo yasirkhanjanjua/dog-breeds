@@ -26,6 +26,5 @@ Unit tests have been written for viewmodel, mappers, usecases, repositories and 
 
 
 ## What can be done next
-Snapshot testing,  UI and integration testing
-Room database can be added to make app usable offline and improve network performance.
+Snapshot testing,  UI and integration testing. Room database can be added to make app usable offline and improve network performance.
 Add error retry section fot the user to be able to reload.
