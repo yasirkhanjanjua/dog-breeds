@@ -9,14 +9,12 @@ import com.yasir.code.core.network.model.NetworkBreedImages
 import com.yasir.code.test.MainDispatcherRule
 import com.yasir.code.test.util.str
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.`is`
-
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
