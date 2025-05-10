@@ -35,16 +35,13 @@ class NetworkModule {
         return HttpLoggingInterceptor().setLevel(Level.BODY)
     }
 
-    // TODO: Remove authorizationInterceptor
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        authorizationInterceptor: AuthorizationInterceptor,
         httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
 
         return OkHttpClient.Builder()
-            .addInterceptor(authorizationInterceptor)  // Add the interceptor
             .addInterceptor(httpLoggingInterceptor)
 
             .build()
