@@ -45,5 +45,4 @@ class GetDogBreedsUseCase @Inject constructor(
                 }
             }
         }.awaitAll()
-
 }
