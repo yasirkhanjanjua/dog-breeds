@@ -1,5 +1,6 @@
 package com.yasir.code.features.breeddetail
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yasir.code.core.domain.GetDogBreedImagesUseCase
@@ -22,24 +23,32 @@ class DogBreedImagesScreenViewModel @AssistedInject constructor(
     @Assisted val breed: DogBreed,
 ) : ViewModel() {
 
-    private val _usersState: MutableStateFlow<DogBreedDetailScreenUiState> =
-        MutableStateFlow<DogBreedDetailScreenUiState>(
-            DogBreedDetailScreenUiState.Loading(dogBreedDetailScreenUiStateMapper.mapTitle(breed))
+    private val _uiState: MutableStateFlow<DogBreedDetailScreenUiState> =
+        MutableStateFlow(
+            DogBreedDetailScreenUiState.Loading(
+                dogBreedDetailScreenUiStateMapper.mapTitle(
+                    breed
+                )
+            )
         )
-    val usersState: StateFlow<DogBreedDetailScreenUiState> = _usersState
+    val uiState: StateFlow<DogBreedDetailScreenUiState> = _uiState
 
     init {
+        performLoad()
+    }
+
+    @VisibleForTesting
+    fun performLoad() {
         viewModelScope.launch {
             getDogBreedImagesUseCase(breed)
                 .map {
                     dogBreedDetailScreenUiStateMapper.map(breed, it)
                 }
                 .catch { e: Throwable ->
-                    // TODO: Fix
-                    _usersState.value = DogBreedDetailScreenUiState.Error(dogBreedDetailScreenUiStateMapper.mapTitle(breed), e.message ?: "")
+                    _uiState.value = dogBreedDetailScreenUiStateMapper.mapError(breed, e)
                 }
                 .collect {
-                    _usersState.value = it
+                    _uiState.value = it
                 }
         }
     }

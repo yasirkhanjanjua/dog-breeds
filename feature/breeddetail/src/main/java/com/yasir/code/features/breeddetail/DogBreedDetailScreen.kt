@@ -34,7 +34,7 @@ import com.yasir.code.features.breeddetail.model.DogBreedDetailScreenUiState
 @Composable
 fun DogBreedDetailScreen(viewModel: DogBreedImagesScreenViewModel, onBackPressed: () -> Unit, modifier: Modifier = Modifier) {
     val uiState: State<DogBreedDetailScreenUiState> =
-        viewModel.usersState.collectAsStateWithLifecycle()
+        viewModel.uiState.collectAsStateWithLifecycle()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
