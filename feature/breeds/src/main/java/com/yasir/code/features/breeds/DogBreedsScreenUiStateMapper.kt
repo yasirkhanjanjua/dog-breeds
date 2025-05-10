@@ -18,7 +18,7 @@ class DogBreedsScreenUiStateMapper @Inject constructor(
     fun map(result: Result<List<DogBreedWithImage>>): DogBreedsScreenUiState {
         return when (result) {
             is Result.Success -> mapSuccess(result)
-            is Result.Failure -> mapError(result)
+            is Result.Failure -> mapFailure(result)
         }
     }
 
@@ -60,7 +60,7 @@ class DogBreedsScreenUiStateMapper @Inject constructor(
 
 
     @VisibleForTesting
-    fun mapError(result: Result.Failure<List<DogBreedWithImage>>): DogBreedsScreenUiState.Error =
+    fun mapFailure(result: Result.Failure<List<DogBreedWithImage>>): DogBreedsScreenUiState.Error =
         result.error?.let {
             mapError(it)
         } ?: DogBreedsScreenUiState.Error(result.message)

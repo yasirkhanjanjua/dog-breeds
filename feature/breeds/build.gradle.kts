@@ -57,10 +57,10 @@ dependencies {
 
     testImplementation(project(":core:testing"))
     testImplementation(libs.junit)
-    implementation(libs.kotlinx.coroutines.test)
-    implementation(libs.hamcrest)
-    implementation(libs.fixture)
-    implementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.hamcrest)
+    testImplementation(libs.fixture)
+    testImplementation(libs.mockk)
 
 
 
