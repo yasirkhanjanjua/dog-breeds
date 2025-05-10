@@ -43,6 +43,13 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
 
+    testImplementation(project(":core:testing"))
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.hamcrest)
+    testImplementation(libs.fixture)
+    testImplementation(libs.mockk)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
