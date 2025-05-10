@@ -1,4 +1,4 @@
-package com.yasir.code.features.users
+package com.yasir.code.features.breeds
 
 import androidx.annotation.VisibleForTesting
 import com.yasir.code.common.R
@@ -6,8 +6,8 @@ import com.yasir.code.common.StringLoader
 import com.yasir.code.common.capitalize
 import com.yasir.code.core.domain.model.DogBreedWithImage
 import com.yasir.code.core.domain.model.Result
-import com.yasir.code.features.users.model.DogBreedUiState
-import com.yasir.code.features.users.model.DogBreedsScreenUiState
+import com.yasir.code.features.breeds.model.DogBreedUiState
+import com.yasir.code.features.breeds.model.DogBreedsScreenUiState
 import java.io.IOException
 import java.net.UnknownHostException
 import javax.inject.Inject

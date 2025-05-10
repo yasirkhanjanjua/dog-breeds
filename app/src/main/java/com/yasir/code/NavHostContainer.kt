@@ -11,7 +11,7 @@ import com.yasir.code.core.domain.model.DogBreed
 import com.yasir.code.features.breeddetail.DogBreedDetailScreen
 import com.yasir.code.features.breeddetail.DogBreedImagesScreenViewModel
 import com.yasir.code.features.breeddetail.DogBreedImagesScreenViewModelFactory
-import com.yasir.code.features.users.DogBreedsScreen
+import com.yasir.code.features.breeds.DogBreedsScreen
 import kotlinx.serialization.Serializable
 
 

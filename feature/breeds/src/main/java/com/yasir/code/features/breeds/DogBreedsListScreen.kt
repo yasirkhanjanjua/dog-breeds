@@ -1,6 +1,5 @@
-package com.yasir.code.features.users
+package com.yasir.code.features.breeds
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -33,7 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.yasir.code.core.domain.model.DogBreed
-import com.yasir.code.features.users.model.DogBreedsScreenUiState
+import com.yasir.code.features.breeds.model.DogBreedsScreenUiState
 import com.yasir.code.users.R
 
 @Composable

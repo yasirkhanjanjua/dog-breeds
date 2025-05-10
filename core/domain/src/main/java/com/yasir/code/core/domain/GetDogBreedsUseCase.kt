@@ -21,6 +21,9 @@ class GetDogBreedsUseCase @Inject constructor(
     operator fun invoke(coroutineScope: CoroutineScope): Flow<Result<List<DogBreedWithImage>>> =
         flow { emit(fetchBreedsWithImages(coroutineScope)) }
 
+    fun test(coroutineScope: CoroutineScope): Flow<Result<List<DogBreedWithImage>>> =
+        flow { emit(fetchBreedsWithImages(coroutineScope)) }
+
     @VisibleForTesting
     suspend fun fetchBreedsWithImages(coroutineScope: CoroutineScope): Result<List<DogBreedWithImage>> {
         return when (val breedsResult = dogBreedsRepository.fetchBreeds()) {

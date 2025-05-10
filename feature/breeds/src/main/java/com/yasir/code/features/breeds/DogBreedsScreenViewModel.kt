@@ -1,12 +1,11 @@
-package com.yasir.code.features.users
+package com.yasir.code.features.breeds
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yasir.code.core.domain.GetDogBreedsUseCase
-import com.yasir.code.features.users.model.DogBreedsScreenUiState
-import com.yasir.code.features.users.model.UsersScreenUiState
+import com.yasir.code.features.breeds.model.DogBreedsScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -20,10 +19,16 @@ class DogBreedsScreenViewModel @Inject constructor(
     private val dogBreedsScreenUiStateMapper: DogBreedsScreenUiStateMapper
 ) : ViewModel() {
 
-    private val _usersState: MutableStateFlow<DogBreedsScreenUiState> = MutableStateFlow<DogBreedsScreenUiState>(DogBreedsScreenUiState.Loading)
+    private val _usersState: MutableStateFlow<DogBreedsScreenUiState> =
+        MutableStateFlow(DogBreedsScreenUiState.Loading)
     val usersState: StateFlow<DogBreedsScreenUiState> = _usersState
 
     init {
+        performLoad()
+    }
+
+    @VisibleForTesting
+    fun performLoad() {
         viewModelScope.launch {
             getDogBreedsUseCase.invoke(viewModelScope)
                 .map(dogBreedsScreenUiStateMapper::map)
@@ -34,7 +39,5 @@ class DogBreedsScreenViewModel @Inject constructor(
                     _usersState.value = it
                 }
         }
-
     }
-
 }

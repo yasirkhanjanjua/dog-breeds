@@ -1,4 +1,4 @@
-package com.yasir.code.features.users.model
+package com.yasir.code.features.breeds.model
 
 import com.yasir.code.core.domain.model.DogBreed
 
