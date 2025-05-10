@@ -32,7 +32,6 @@ class DogBreedDetailScreenUiStateMapper @Inject constructor(private val stringLo
     fun mapTitle(breed: DogBreed): String =
         when {
             breed.subType.isNotEmpty() -> "${breed.subType.capitalize()} ${breed.name.capitalize()}"
-
             else -> breed.name.capitalize()
         }
 
