@@ -94,5 +94,4 @@ class DogBreedsScreenViewModelTest {
 
         assertThat(sut.breedsState.value, `is`(fixtUiState))
     }
-
 }
