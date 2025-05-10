@@ -12,7 +12,7 @@ which shows 10 random images of that breed.
 
 ## Architecture
 Jetpack compose for UI, MVVM viewmodel for presentation logic. Beyond presentation is an implementation 
-of clean architecture. Features and core layers layers are separated in gradle module with modules for 
+of clean architecture. Features and core layers are separated in gradle module with modules for 
 
 * feature/breeds
 * feature/breeddetail
