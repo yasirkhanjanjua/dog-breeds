@@ -19,9 +19,9 @@ class DogBreedsScreenViewModel @Inject constructor(
     private val dogBreedsScreenUiStateMapper: DogBreedsScreenUiStateMapper
 ) : ViewModel() {
 
-    private val _usersState: MutableStateFlow<DogBreedsScreenUiState> =
+    private val _breedsState: MutableStateFlow<DogBreedsScreenUiState> =
         MutableStateFlow(DogBreedsScreenUiState.Loading)
-    val usersState: StateFlow<DogBreedsScreenUiState> = _usersState
+    val breedsState: StateFlow<DogBreedsScreenUiState> = _breedsState
 
     init {
         performLoad()
@@ -33,10 +33,10 @@ class DogBreedsScreenViewModel @Inject constructor(
             getDogBreedsUseCase.invoke(viewModelScope)
                 .map(dogBreedsScreenUiStateMapper::map)
                 .catch { e: Throwable ->
-                    _usersState.value = dogBreedsScreenUiStateMapper.mapError(e)
+                    _breedsState.value = dogBreedsScreenUiStateMapper.mapError(e)
                 }
                 .collect {
-                    _usersState.value = it
+                    _breedsState.value = it
                 }
         }
     }

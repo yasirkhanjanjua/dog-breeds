@@ -22,7 +22,7 @@ class DogBreedsScreenUiStateMapper @Inject constructor(
         }
     }
 
-    fun mapError(error: Throwable) = when(error) {
+    fun mapError(error: Throwable) = when (error) {
         is UnknownHostException -> DogBreedsScreenUiState.Error(stringLoader.getString(R.string.no_internet))
         is IOException -> DogBreedsScreenUiState.Error(stringLoader.getString(R.string.network_error))
         else -> DogBreedsScreenUiState.Error(stringLoader.getString(R.string.unknown_error))
@@ -38,17 +38,30 @@ class DogBreedsScreenUiStateMapper @Inject constructor(
         )
     }
 
-    @VisibleForTesting fun mapDogBreedUiStates(breed: DogBreedWithImage): List<DogBreedUiState> =
+    @VisibleForTesting
+    fun mapDogBreedUiStates(breed: DogBreedWithImage): List<DogBreedUiState> =
         when {
-            breed.breed.subType.isNotEmpty() ->   listOf(DogBreedUiState(breed = breed.breed, name = "${breed.breed.subType.capitalize()} ${breed.breed.name.capitalize()}", image = breed.image))
-            else -> listOf(DogBreedUiState(breed = breed.breed, name = breed.breed.name.capitalize(), image = breed.image))
+            breed.breed.subType.isNotEmpty() -> listOf(
+                DogBreedUiState(
+                    breed = breed.breed,
+                    name = "${breed.breed.subType.capitalize()} ${breed.breed.name.capitalize()}",
+                    image = breed.image
+                )
+            )
+
+            else -> listOf(
+                DogBreedUiState(
+                    breed = breed.breed,
+                    name = breed.breed.name.capitalize(),
+                    image = breed.image
+                )
+            )
         }
 
 
     @VisibleForTesting
-    fun mapError(result: Result.Failure<List<DogBreedWithImage>>): DogBreedsScreenUiState.Error {
-        return DogBreedsScreenUiState.Error(
-            result.message
-        )
-    }
+    fun mapError(result: Result.Failure<List<DogBreedWithImage>>): DogBreedsScreenUiState.Error =
+        result.error?.let {
+            mapError(it)
+        } ?: DogBreedsScreenUiState.Error(result.message)
 }

@@ -20,7 +20,9 @@ import org.hamcrest.Matchers.`is`
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.net.UnknownHostException
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DogBreedsScreenViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -53,10 +55,9 @@ class DogBreedsScreenViewModelTest {
 
     @Test
     fun `initial ui state is loading`() {
-        assertThat(sut.usersState.value, `is`(DogBreedsScreenUiState.Loading))
+        assertThat(sut.breedsState.value, `is`(DogBreedsScreenUiState.Loading))
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `loads breeds and populates ui state`() = runTest {
         val fixtBreeds = listOf(
@@ -77,44 +78,21 @@ class DogBreedsScreenViewModelTest {
 
         advanceUntilIdle()
 
-        assertThat(sut.usersState.value, `is`(fixtScreenUiState))
+        assertThat(sut.breedsState.value, `is`(fixtScreenUiState))
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `loads breeds and populates ui state_`() = runTest {
-        // Create fixture data for DogBreedWithImage
-        val fixtBreeds = listOf(
-            fixture.create(DogBreedWithImage::class.java),
-            fixture.create(DogBreedWithImage::class.java)
-        )
-        val fixtBreedsResult = Result.Success(fixtBreeds)
+    fun `emits error when there is failure`() = runTest {
+        val fixtError = Result.Failure<List<DogBreedWithImage>>(error = UnknownHostException())
+        every { mockGetDogBreedsUseCase.invoke(sut.viewModelScope) } returns flowOf(fixtError)
+        val fixtUiState = fixture.create(DogBreedsScreenUiState.Error::class.java)
+        every { mockDogBreedsScreenUiStateMapper.map(fixtError) } returns fixtUiState
 
-        // Mock the GetDogBreedsUseCase to return the fixture result wrapped in a flow
-        every { mockGetDogBreedsUseCase.test(sut.viewModelScope) } returns flowOf(fixtBreedsResult)
-
-        mockGetDogBreedsUseCase.test(sut.viewModelScope).collect { input ->
-            println(input)
-        }
-
-        // Create fixture UI state data
-        val fixtUiState = listOf(
-            fixture.create(DogBreedUiState::class.java),
-            fixture.create(DogBreedUiState::class.java)
-        )
-        val fixtScreenUiState = DogBreedsScreenUiState.DogBreedsUiState(fixtUiState)
-
-        // Mock the mapper to return the mapped UI state
-        every { mockDogBreedsScreenUiStateMapper.map(fixtBreedsResult) } returns fixtScreenUiState
-
-        // Perform the load operation in the ViewModel
         sut.performLoad()
 
-        // Wait until the coroutines are idle and complete all pending operations
         advanceUntilIdle()
 
-        // Assert that the ViewModel's usersState has been updated with the expected UI state
-        assertThat(sut.usersState.value, `is`(fixtScreenUiState))
+        assertThat(sut.breedsState.value, `is`(fixtUiState))
     }
 
 }

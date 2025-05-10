@@ -40,7 +40,7 @@ fun DogBreedsScreen(
     viewModel: DogBreedsScreenViewModel = hiltViewModel<DogBreedsScreenViewModel>(),
     onBreedSelected: (breed: DogBreed) -> Unit
 ) {
-    val state: State<DogBreedsScreenUiState> = viewModel.usersState.collectAsStateWithLifecycle()
+    val state: State<DogBreedsScreenUiState> = viewModel.breedsState.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
