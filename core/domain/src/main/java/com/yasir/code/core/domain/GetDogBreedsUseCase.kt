@@ -6,17 +6,19 @@ import com.yasir.code.core.domain.model.DogBreedWithImage
 import com.yasir.code.core.domain.model.Result
 import com.yasir.code.core.domain.repository.DogBreedImagesRepository
 import com.yasir.code.core.domain.repository.DogBreedsRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import com.yasir.code.common.di.IoDispatcher
 import javax.inject.Inject
 
 class GetDogBreedsUseCase @Inject constructor(
     private val dogBreedsRepository: DogBreedsRepository,
-    private val dogBreedImagesRepository: DogBreedImagesRepository
-
+    private val dogBreedImagesRepository: DogBreedImagesRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
     operator fun invoke(coroutineScope: CoroutineScope): Flow<Result<List<DogBreedWithImage>>> =
         flow { emit(fetchBreedsWithImages(coroutineScope)) }
@@ -38,7 +40,7 @@ class GetDogBreedsUseCase @Inject constructor(
         coroutineScope: CoroutineScope
     ): List<DogBreedWithImage> =
         breeds.map { breed ->
-            coroutineScope.async {
+            coroutineScope.async(ioDispatcher) {
                 when (val imageResult = dogBreedImagesRepository.fetchDogBreedImage(breed)) {
                     is Result.Success -> DogBreedWithImage(breed, imageResult.data)
                     is Result.Failure -> DogBreedWithImage(breed, "")
