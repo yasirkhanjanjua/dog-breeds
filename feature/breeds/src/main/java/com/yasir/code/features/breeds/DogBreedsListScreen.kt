@@ -30,11 +30,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.yasir.code.core.domain.model.DogBreed
+import com.yasir.code.features.breeds.model.DogBreedUiState
 import com.yasir.code.features.breeds.model.DogBreedsScreenUiState
 import com.yasir.code.users.R
 
@@ -117,6 +119,27 @@ fun ShowDogBreeds(
     }
 }
 
+@Preview
+@Composable
+fun ShowDogBreedsPreview(modifier: Modifier = Modifier) {
+    val breeds = listOf(
+        DogBreedUiState(
+            DogBreed("affenpinscher", ""),
+            name = "affenpinscher",
+            "https://images.dog.ceo/breeds/pembroke/n02113023_6161.jpg"
+        ),
+
+        DogBreedUiState(
+            DogBreed("sheepdog", "english"),
+            name = "affenpinscher",
+            "https://images.dog.ceo/breeds/affenpinscher/n02110627_3972.jpg"
+        )
+    )
+
+    ShowDogBreeds(DogBreedsScreenUiState.DogBreedsUiState(breeds), {})
+}
+
+@Preview
 @Composable
 fun ShowLoading(modifier: Modifier = Modifier) {
     Box(
@@ -150,7 +173,14 @@ fun ShowError(onRetry: () -> Unit, modifier: Modifier = Modifier) {
     }
 }
 
+@Preview
+@Composable
+fun ShowErrorPreview() {
+    ShowError({})
+}
 
+
+@Preview
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun BreedsTopAppBar() {
