@@ -12,6 +12,6 @@ import dagger.hilt.components.SingletonComponent
 interface DogBreedsRepositoryModule {
     @Binds
     fun bindDogBreedsRepository(
-        usersRepository: OnlineDogBreedsRepository,
+        onlineDogBreedsRepository: OnlineDogBreedsRepository,
     ): DogBreedsRepository
 }

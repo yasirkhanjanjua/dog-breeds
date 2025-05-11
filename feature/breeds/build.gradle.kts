@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.yasir.code.users"
+    namespace = "com.yasir.code.features.breeds"
     compileSdk = 35
 
     defaultConfig {

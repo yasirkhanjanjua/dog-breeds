@@ -38,7 +38,6 @@ import coil.compose.AsyncImage
 import com.yasir.code.core.domain.model.DogBreed
 import com.yasir.code.features.breeds.model.DogBreedUiState
 import com.yasir.code.features.breeds.model.DogBreedsScreenUiState
-import com.yasir.code.users.R
 
 @Composable
 fun DogBreedsScreen(
