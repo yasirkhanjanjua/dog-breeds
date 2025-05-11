@@ -2,4 +2,6 @@
 <resources>
     <string name="breed_details_title">Dog breeds</string>
     <string name="back">Back</string>
+    <string name="breed_details_retry">Retry</string>
+    <string name="breed_details_load_error">Failed to load breed images</string>
 </resources>

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="breeds_title">Dog breeds</string>
+    <string name="breeds_load_error">Error loading breeds</string>
+    <string name="retry">Retry</string>
 </resources>

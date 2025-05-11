@@ -10,7 +10,11 @@ import com.yasir.code.features.breeds.model.DogBreedsScreenUiState
 import com.yasir.code.test.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
+import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -93,5 +97,16 @@ class DogBreedsScreenViewModelTest {
         advanceUntilIdle()
 
         assertThat(sut.breedsState.value, `is`(fixtUiState))
+    }
+
+    @Test
+    fun `onRetry performs reload`()  = runTest {
+        val spy = spyk(sut)
+
+        every { spy.performLoad() } just runs
+
+        spy.onRetry()
+
+        verify { spy.performLoad() }
     }
 }

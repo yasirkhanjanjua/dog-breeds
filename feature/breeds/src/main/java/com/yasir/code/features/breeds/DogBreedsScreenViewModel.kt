@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.yasir.code.core.domain.GetDogBreedsUseCase
 import com.yasir.code.features.breeds.model.DogBreedsScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -27,8 +28,11 @@ class DogBreedsScreenViewModel @Inject constructor(
         performLoad()
     }
 
+    fun onRetry() = performLoad()
+
     @VisibleForTesting
     fun performLoad() {
+        _breedsState.value = DogBreedsScreenUiState.Loading
         viewModelScope.launch {
             getDogBreedsUseCase.invoke(viewModelScope)
                 .map(dogBreedsScreenUiStateMapper::map)

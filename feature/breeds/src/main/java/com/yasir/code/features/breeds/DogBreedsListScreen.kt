@@ -1,6 +1,8 @@
 package com.yasir.code.features.breeds
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -48,7 +51,7 @@ fun DogBreedsScreen(
             BreedsTopAppBar()
         }
     ) { innerPadding: PaddingValues ->
-        DogBreedsScreen(innerPadding, state.value, onBreedSelected)
+        DogBreedsScreen(innerPadding, state.value, onBreedSelected, viewModel::onRetry)
     }
 }
 
@@ -57,6 +60,7 @@ fun DogBreedsScreen(
     paddingValues: PaddingValues,
     uiState: DogBreedsScreenUiState,
     onBreedSelected: (breed: DogBreed) -> Unit,
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -67,7 +71,7 @@ fun DogBreedsScreen(
         when (uiState) {
             is DogBreedsScreenUiState.DogBreedsUiState -> ShowDogBreeds(uiState, onBreedSelected)
             is DogBreedsScreenUiState.Loading -> ShowLoading()
-            is DogBreedsScreenUiState.Error -> ShowError()
+            is DogBreedsScreenUiState.Error -> ShowError(onRetry)
         }
     }
 }
@@ -124,9 +128,28 @@ fun ShowLoading(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ShowError(modifier: Modifier = Modifier) {
+fun ShowError(onRetry: () -> Unit, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(R.string.breeds_load_error),
+            style = MaterialTheme.typography.titleMedium
+        )
 
+        Spacer(modifier = Modifier.padding(8.dp))
+
+        Button(onRetry) {
+            Text(
+                text = stringResource(R.string.retry),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
 }
+
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

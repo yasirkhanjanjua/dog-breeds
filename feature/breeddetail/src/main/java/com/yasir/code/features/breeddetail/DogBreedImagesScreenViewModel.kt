@@ -37,8 +37,12 @@ class DogBreedImagesScreenViewModel @AssistedInject constructor(
         performLoad()
     }
 
+    fun onRetry() = performLoad()
+
     @VisibleForTesting
     fun performLoad() {
+        _uiState.value =
+            DogBreedDetailScreenUiState.Loading(dogBreedDetailScreenUiStateMapper.mapTitle(breed))
         viewModelScope.launch {
             getDogBreedImagesUseCase(breed)
                 .map {
