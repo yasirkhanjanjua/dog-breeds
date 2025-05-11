@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -101,6 +102,11 @@ fun DogBreedImage(url: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun DogBreedImagePreview() {
+    DogBreedImage(url = "https://images.dog.ceo/breeds/retriever-flatcoated/n02099267_5089.jpg")
+}
+
+@Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun BreedDetailTopAppBar(name: String, onBackPressed: () -> Unit) {
     val isBackHandled = remember { mutableStateOf(false) }
@@ -132,6 +138,15 @@ private fun BreedDetailTopAppBar(name: String, onBackPressed: () -> Unit) {
     )
 }
 
+@Preview
+@Composable
+fun BreedDetailTopAppBarPreview() {
+    BreedDetailTopAppBar(name = "Breed detail") {
+        
+    }
+}
+
+@Preview
 @Composable
 fun ShowLoading(modifier: Modifier = Modifier) {
     Box(
@@ -163,4 +178,10 @@ fun ShowError(onRetry: () -> Unit, modifier: Modifier = Modifier) {
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun ShowErrorPreview(modifier: Modifier = Modifier) {
+    ShowError({})
 }

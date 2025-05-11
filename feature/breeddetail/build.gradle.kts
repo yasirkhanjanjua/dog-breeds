@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.coil)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.ui.tooling.preview)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
